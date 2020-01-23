@@ -1,5 +1,86 @@
 # GoFormation Versioning Changelog
 
+# [3.0.0](https://github.com/anonfunc/goformation/compare/v2.3.0...v3.0.0) (2020-01-23)
+
+
+### Bug Fixes
+
+* **go:** Ran `go mod tidy` ([#233](https://github.com/anonfunc/goformation/issues/233)) ([7914822](https://github.com/anonfunc/goformation/commit/79148224a43eb530329dda8a2614ee7ff5111564))
+* **schema:** AWS::Serverless::Api.MethodSettings should be a list ([a1f340a](https://github.com/anonfunc/goformation/commit/a1f340a07e0ba4f21b8655da2c4d608849278901)), closes [#242](https://github.com/anonfunc/goformation/issues/242)
+* **schema:** AWS::Serverless::Function S3 notification filters ([#249](https://github.com/anonfunc/goformation/issues/249)) ([a50ef92](https://github.com/anonfunc/goformation/commit/a50ef9291026420ea8a5e74790fc49b8a9c7fd85)), closes [#74](https://github.com/anonfunc/goformation/issues/74)
+* **schema:** AWS::Serverless:Api.Cors ([#246](https://github.com/anonfunc/goformation/issues/246)) ([62fd56a](https://github.com/anonfunc/goformation/commit/62fd56a62586c65722f99dbd4c8308ab42fcfc1d)), closes [#244](https://github.com/anonfunc/goformation/issues/244)
+* **schema:** Ordered cloudformation/all.go file ([#238](https://github.com/anonfunc/goformation/issues/238)) ([91254f3](https://github.com/anonfunc/goformation/commit/91254f30925b89db5e79604d812a1ee9279267bd))
+* **schema:** version attribute of Function::S3Location in SAM is optional ([#226](https://github.com/anonfunc/goformation/issues/226)) ([14b754c](https://github.com/anonfunc/goformation/commit/14b754c069ef0dfa7abd26e235ccb258b3c72f53)), closes [/github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#s3](https://github.com//github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md/issues/s3) [#87](https://github.com/anonfunc/goformation/issues/87)
+
+
+### Features
+
+* **schema:** AWS CloudFormation Update (2019-10-26) ([#231](https://github.com/anonfunc/goformation/issues/231)) ([63ca311](https://github.com/anonfunc/goformation/commit/63ca311c03a80b25124f506dafa39d81b5e029f3))
+* **schema:** AWS CloudFormation Update (2019-10-29) ([#239](https://github.com/anonfunc/goformation/issues/239)) ([7ff8499](https://github.com/anonfunc/goformation/commit/7ff84990c89e11815d22e06d377e110ae422cc17))
+* **schema:** CloudFormation Updates (2019-12-09) ([#251](https://github.com/anonfunc/goformation/issues/251)) ([a23ba41](https://github.com/anonfunc/goformation/commit/a23ba416a24649c7296a0bc507c7940d9082ea30))
+
+
+* Fix method conflicts (#245) ([d0b0a8b](https://github.com/anonfunc/goformation/commit/d0b0a8bc322e27f72e840c9847f3c822d4efa933)), closes [#245](https://github.com/anonfunc/goformation/issues/245) [#241](https://github.com/anonfunc/goformation/issues/241) [#294](https://github.com/anonfunc/goformation/issues/294)
+* Group CloudFormation resources by AWS service name (#234) ([d0749e6](https://github.com/anonfunc/goformation/commit/d0749e6a8fc5e7b0ddc301aef0170e12c7dc459c)), closes [#234](https://github.com/anonfunc/goformation/issues/234)
+
+
+### BREAKING CHANGES
+
+* This change refactors the DependsOn, Metadata, CreationPolicy,
+UpdatePolicy and DeletionPolicy methods on each resource to a new
+name. This is required, as some CloudFormation resources use these
+keywords as properties (AWS::AppMesh::Route.GrpcRouteMatch has a
+Metadata field for example), which causes a conflict.
+
+`resource.DependsOn()` method is refactored to `resource.AWSCloudFormationDependsOn` field.
+`resource.SetDependsOn()` method is refactored to `resource.AWSCloudFormationDependsOn` field.
+`resource.Metadata()` method is refactored to `resource.AWSCloudFormationMetadata` field.
+`resource.SetMetadata()` method is refactored to `resource.AWSCloudFormationMetadata` field.
+`resource.CreationPolicy()` method is refactored to `resource.AWSCloudFormationCreationPolicy` field.
+`resource.SetCreationPolicy()` method is refactored to `resource.AWSCloudFormationCreationPolicy` field.
+`resource.UpdatePolicy()` method is refactored to `resource.AWSCloudFormationUpdatePolicy` field.
+`resource.SetUpdatePolicy()` method is refactored to `resource.AWSCloudFormationUpdatePolicy` field.
+`resource.DeletionPolicy()` method is refactored to `resource.AWSCloudFormationDeletionPolicy` field.
+`resource.SetDeletionPolicy()` method is refactored to `resource.AWSCloudFormationDeletionPolicy` field.
+* this change moves all Cloudformation resources to
+packages based on the AWS service name. The main motivation for this is
+that building goformation on some platforms (Windows) failed due to too
+many files in the old cloudformation/resources package. This new package
+style has a nice benefit of slightly nicer to use API, but is a breaking
+change and will require refactoring existing codebases to update to v3.
+
+Old usage:
+
+```go
+import "github.com/awslabs/goformation/v2/cloudformation/resources"
+
+... snip ...
+
+topic := &resources.AWSSNSTopic{}
+```
+
+New usage:
+
+```go
+import "github.com/awslabs/goformation/v3/cloudformation/sns"
+
+...snip...
+
+topic := &sns.Topic{}
+```
+
+Most tests are still failing at this point and need refactoring.
+
+* fix(schema): Tag handling
+
+Fixed tag handling for new grouped resources style (via new tags.Tag
+struct).
+
+* fix(schema): SAM specification
+
+SAM Specification now generates nicely with new grouped resources
+format. Also all tests are now passing \o/
+
 # [4.1.0](https://github.com/awslabs/goformation/compare/v4.0.3...v4.1.0) (2019-12-09)
 
 
