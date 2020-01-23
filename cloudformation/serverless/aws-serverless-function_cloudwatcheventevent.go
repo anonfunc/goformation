@@ -8,6 +8,11 @@ import (
 // See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent
 type Function_CloudWatchEventEvent struct {
 
+	// EventBusName AWS CloudFormation Property
+	// Required: false
+	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent
+	EventBusName string `json:"EventBusName,omitempty"`
+
 	// Input AWS CloudFormation Property
 	// Required: false
 	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent

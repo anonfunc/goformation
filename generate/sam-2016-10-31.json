@@ -439,7 +439,10 @@
                         "ApiEvent",
                         "ScheduleEvent",
                         "CloudWatchEventEvent",
+                        "EventBridgeRuleEvent",
+                        "CloudWatchLogsEvent",
                         "IoTRuleEvent",
+                        "CognitoEvent",
                         "AlexaSkillEvent"
                     ],
                     "UpdateType": "Immutable"
@@ -596,6 +599,63 @@
                     "Required": false,
                     "PrimitiveType": "String",
                     "UpdateType": "Immutable"
+                },
+                "Auth": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api",
+                    "Required": false,
+                    "Type": "Auth"
+                },
+                "RequestModel": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api",
+                    "Required": false,
+                    "Type": "RequestModel"
+                },
+                "RequestParameters": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-request-parameter-object",
+                    "Required": false,
+                    "Type": "List",
+                    "PrimitiveItemType": "Map"
+                }
+            }
+        },
+        "AWS::Serverless::Function.Auth": {
+            "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-auth-object",
+            "Properties": {
+                "Authorizer": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-auth-object",
+                    "Required": false,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "AuthorizationScopes": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-auth-object",
+                    "Required": false,
+                    "Type": "List",
+                    "PrimitiveItemType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "ApiKeyRequired": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-auth-object",
+                    "Required": true,
+                    "PrimitiveType": "Boolean",
+                    "UpdateType": "Immutable"
+                }
+            }
+        },
+        "AWS::Serverless::Function.RequestModel": {
+            "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-request-model-object",
+            "Properties": {
+                "Model": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-request-model-object",
+                    "Required": true,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "Required": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-request-model-object",
+                    "Required": false,
+                    "PrimitiveType": "Boolean",
+                    "UpdateType": "Immutable"
                 }
             }
         },
@@ -613,6 +673,24 @@
                     "Required": false,
                     "PrimitiveType": "String",
                     "UpdateType": "Immutable"
+                },
+                "Name": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#schedule",
+                    "Required": false,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "Description": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#schedule",
+                    "Required": false,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "Enabled": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#schedule",
+                    "Required": false,
+                    "PrimitiveType": "Boolean",
+                    "UpdateType": "Immutable"
                 }
             }
         },
@@ -625,6 +703,12 @@
                     "PrimitiveType": "Json",
                     "UpdateType": "Immutable"
                 },
+                "EventBusName": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent",
+                    "Required": false,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
                 "Input": {
                     "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent",
                     "Required": false,
@@ -633,6 +717,46 @@
                 },
                 "InputPath": {
                     "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent",
+                    "Required": false,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                }
+            }
+        },
+        "AWS::Serverless::Function.CloudWatchLogsEvent": {
+            "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchlogs",
+            "Properties": {
+                "LogGroupName": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchlogs",
+                    "Required": true,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "FilterPattern": {
+                    "Documentation": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html",
+                    "Required": true,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                }
+            }
+        },
+        "AWS::Serverless::Function.EventBridgeRuleEvent": {
+            "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#eventbridgerule",
+            "Properties": {
+                "Pattern": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#eventbridgerule",
+                    "Required": true,
+                    "PrimitiveType": "Json",
+                    "UpdateType": "Immutable"
+                },
+                "Input": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#eventbridgerule",
+                    "Required": false,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "InputPath": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#eventbridgerule",
                     "Required": false,
                     "PrimitiveType": "String",
                     "UpdateType": "Immutable"
@@ -652,6 +776,24 @@
                     "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#iotrule",
                     "Required": false,
                     "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                }
+            }
+        },
+        "AWS::Serverless::Function.CognitoEvent": {
+            "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cognito",
+            "Properties": {
+                "UserPool": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cognito",
+                    "Required": true,
+                    "PrimitiveType": "String",
+                    "UpdateType": "Immutable"
+                },
+                "Trigger": {
+                    "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cognito",
+                    "Required": true,
+                    "PrimitiveType": "String",
+                    "PrimitiveItemType": "String",
                     "UpdateType": "Immutable"
                 }
             }

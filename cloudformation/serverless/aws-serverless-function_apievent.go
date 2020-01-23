@@ -8,6 +8,11 @@ import (
 // See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
 type Function_ApiEvent struct {
 
+	// Auth AWS CloudFormation Property
+	// Required: false
+	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+	Auth *Function_Auth `json:"Auth,omitempty"`
+
 	// Method AWS CloudFormation Property
 	// Required: true
 	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -17,6 +22,16 @@ type Function_ApiEvent struct {
 	// Required: true
 	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
 	Path string `json:"Path,omitempty"`
+
+	// RequestModel AWS CloudFormation Property
+	// Required: false
+	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+	RequestModel *Function_RequestModel `json:"RequestModel,omitempty"`
+
+	// RequestParameters AWS CloudFormation Property
+	// Required: false
+	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#function-request-parameter-object
+	RequestParameters []interface{} `json:"RequestParameters,omitempty"`
 
 	// RestApiId AWS CloudFormation Property
 	// Required: false

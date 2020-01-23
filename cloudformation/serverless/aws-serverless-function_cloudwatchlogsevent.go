@@ -1,0 +1,34 @@
+package serverless
+
+import (
+	"github.com/awslabs/goformation/v4/cloudformation/policies"
+)
+
+// Function_CloudWatchLogsEvent AWS CloudFormation Resource (AWS::Serverless::Function.CloudWatchLogsEvent)
+// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchlogs
+type Function_CloudWatchLogsEvent struct {
+
+	// FilterPattern AWS CloudFormation Property
+	// Required: true
+	// See: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html
+	FilterPattern string `json:"FilterPattern,omitempty"`
+
+	// LogGroupName AWS CloudFormation Property
+	// Required: true
+	// See: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchlogs
+	LogGroupName string `json:"LogGroupName,omitempty"`
+
+	// AWSCloudFormationDeletionPolicy represents a CloudFormation DeletionPolicy
+	AWSCloudFormationDeletionPolicy policies.DeletionPolicy `json:"-"`
+
+	// AWSCloudFormationDependsOn stores the logical ID of the resources to be created before this resource
+	AWSCloudFormationDependsOn []string `json:"-"`
+
+	// AWSCloudFormationMetadata stores structured data associated with this resource
+	AWSCloudFormationMetadata map[string]interface{} `json:"-"`
+}
+
+// AWSCloudFormationType returns the AWS CloudFormation resource type
+func (r *Function_CloudWatchLogsEvent) AWSCloudFormationType() string {
+	return "AWS::Serverless::Function.CloudWatchLogsEvent"
+}
